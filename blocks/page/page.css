@@ -1,0 +1,14 @@
+.page {
+  min-width: 320px;
+  padding-top: 28px;
+  padding-bottom: 36px;
+  background-color: #000;
+  box-sizing: border-box;
+}
+
+@media screen and (min-width: 768px) {
+  .page {
+    padding-top: 45px;
+    padding-bottom: 60px;
+  }
+}
