@@ -1,0 +1,20 @@
+.element {
+  width: 282px;
+  margin-top: 20px;
+  background-color: #fff;
+  color: #000;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+@media screen and (min-width: 425px) {
+  .element {
+    margin: 20px 8.5px 0;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .element {
+    margin: 20px 0 0;
+  }
+}
