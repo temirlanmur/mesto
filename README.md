@@ -1,17 +1,16 @@
-# Проект: Место
+# "Place" project
+## Проект: Место
 
-### Обзор
+### Description
+This project was completed as a part of my training in Yandex Practicum (Sprint #4).
 
-* Figma
-* Картинки
+It represents a single page I made based on the provided design specification.
 
-**Figma**
+The page supports adaptive design. Javascript is included to display a popup menu.
 
-* [Ссылка на макет в Figma](https://www.figma.com/file/2cn9N9jSkmxD84oJik7xL7/JavaScript.-Sprint-4?node-id=0%3A1)
+### Tech
+For this project I have used HTML, CSS, and vanilla JS.
+BEM methodology is utilized when writing CSS and organizing files.
 
-**Картинки**
-
-Доставать картинки предстоит из Фигмы. Это расхожая практика, поэтому полезно потренироваться.
-Не забудьте [оптимизировать картинки](https://tinypng.com/), чтобы ваш сайт загружался быстрее.
-
-Удачи!
+### GitHub Pages link
+* [link](https://temirlanmur.github.io/mesto/)
