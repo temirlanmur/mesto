@@ -1,0 +1,14 @@
+.popup__input-field {
+  width: 100%;
+  margin-top: 30px;
+  padding: 0 0 13px 0;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  font-family: Inter, Arial, sans-serif;
+  font-weight: 400;
+  font-size: .875rem;
+}
+
+.popup__input-field:focus {
+  outline: none;
+}
