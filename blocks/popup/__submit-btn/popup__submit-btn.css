@@ -9,7 +9,7 @@
   font-weight: 400;
   font-size: .875rem;
   cursor: pointer;
-  transition: .4s
+  transition: .4s;
 }
 
 .popup__submit-btn:hover {
