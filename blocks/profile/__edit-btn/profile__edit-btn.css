@@ -9,4 +9,18 @@
   background-color: #000;
   border: 1px solid #fff;
   border-radius: 0px;
+  cursor: pointer;
+  transition: .4s;
+}
+
+.profile__edit-btn:hover {
+  opacity: 60%;
+}
+
+@media screen and (min-width: 768px) {
+  .profile__edit-btn {
+    width: 1.5rem;
+    height: 1.5rem;
+    vertical-align: .55rem;
+  }
 }

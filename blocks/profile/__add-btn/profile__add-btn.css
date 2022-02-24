@@ -8,6 +8,12 @@
   background-color: #000;
   border: 2px solid #fff;
   border-radius: 2px;
+  cursor: pointer;
+  transition: .4s;
+}
+
+.profile__add-btn:hover {
+  opacity: 60%;
 }
 
 @media screen and (min-width: 768px) {
