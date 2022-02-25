@@ -7,114 +7,126 @@
   <link rel="stylesheet" href="./pages/index.css">
   <title>Место</title>
 </head>
-<body>
-  <div class="page">
-    <div class="popup">
-      <form class="popup__container">
-        <button type="button" class="popup__close-btn"></button>
-        <h2 class="popup__header">Редактировать профиль</h2>
-        <input type="text" class="popup__input-field" id="form-name">
-        <input type="text" class="popup__input-field" id="form-description">
-        <input type="submit" class="popup__submit-btn" value="Сохранить">
+<body class="page">
+  <header class="header">
+    <img
+      src="./images/logo.svg"
+      alt="Лого Место"
+      class="header__logo"
+    >
+  </header>
+
+  <main>
+    <section class="profile">
+      <img
+        src="./images/avatar.jpg"
+        alt="Аватар"
+        class="profile__avatar"
+      >
+      <div class="profile__info">
+        <h1 class="profile__name">Жак-Ив Кусто</h1>
+        <button type="button" class="profile__edit-btn"></button>
+        <p class="profile__description">Исследователь океана</p>
+      </div>
+      <button type="button" class="profile__add-btn"></button>
+    </section>
+
+    <section class="elements">
+      <article class="element">
+        <img
+          src="./images/place-chalus.jpg"
+          alt="Чалус"
+          class="element__img"
+        >
+        <div class="element__body">
+          <h2 class="element__title">Чалус</h2>
+          <button type="button" class="element__like-btn"></button>
+        </div>
+      </article>
+      <article class="element">
+        <img
+          src="./images/place-tyrol.jpg"
+          alt="Тироль"
+          class="element__img"
+        >
+        <div class="element__body">
+          <h2 class="element__title">Тироль</h2>
+          <button type="button" class="element__like-btn"></button>
+        </div>
+      </article>
+      <article class="element">
+        <img
+          src="./images/place-ubud.jpg"
+          alt="Убуд"
+          class="element__img"
+        >
+        <div class="element__body">
+          <h2 class="element__title">Убуд</h2>
+          <button type="button" class="element__like-btn"></button>
+        </div>
+      </article>
+      <article class="element">
+        <img
+          src="./images/place-milano.jpg"
+          alt="Милан"
+          class="element__img"
+        >
+        <div class="element__body">
+          <h2 class="element__title">Милан</h2>
+          <button type="button" class="element__like-btn"></button>
+        </div>
+      </article>
+      <article class="element">
+        <img
+          src="./images/place-stockholm.jpg"
+          alt="Стокгольм"
+          class="element__img"
+        >
+        <div class="element__body">
+          <h2 class="element__title">Стокгольм</h2>
+          <button type="button" class="element__like-btn"></button>
+        </div>
+      </article>
+      <article class="element">
+        <img
+          src="./images/place-donostia-san-sebastian.jpg"
+          alt="Доностия-Сан-Себастьян"
+          class="element__img"
+        >
+        <div class="element__body">
+          <h2 class="element__title">Доностия-Сан-Себастьян</h2>
+          <button type="button" class="element__like-btn"></button>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p class="footer__copyright">© 2020 Mesto Russia</p>
+  </footer>
+
+  <div class="popup">
+    <div class="popup__container">
+      <button type="button" class="popup__close-btn"></button>
+      <h2 class="popup__header">Редактировать профиль</h2>
+      <form name="popup-form">
+        <input
+          type="text"
+          class="popup__input-field"
+          name="form-name"
+          id="form-name"
+        >
+        <input
+          type="text"
+          class="popup__input-field"
+          name="form-description"
+          id="form-description"
+        >
+        <button type="submit" class="popup__submit-btn">
+          Сохранить
+        </button>
       </form>
     </div>
-
-    <header class="header">
-      <img
-        src="./images/logo.svg"
-        alt="Лого Место"
-        class="header__logo"
-      >
-    </header>
-
-    <main>
-      <section class="profile">
-        <img
-          src="./images/avatar.jpg"
-          alt="Аватар"
-          class="profile__avatar"
-        >
-        <div class="profile__info">
-          <h1 class="profile__name">Жак-Ив Кусто</h1>
-          <button class="profile__edit-btn"></button>
-          <p class="profile__description">Исследователь океана</p>
-        </div>
-        <button class="profile__add-btn"></button>
-      </section>
-
-      <section class="elements">
-        <article class="element">
-          <img
-            src="./images/place-chalus.jpg"
-            alt="Чалус"
-            class="element__img"
-          >
-          <div class="element__body">
-            <h2 class="element__title">Чалус</h2>
-            <button class="element__like-btn"></button>
-          </div>
-        </article>
-        <article class="element">
-          <img
-            src="./images/place-tyrol.jpg"
-            alt="Тироль"
-            class="element__img"
-          >
-          <div class="element__body">
-            <h2 class="element__title">Тироль</h2>
-            <button class="element__like-btn"></button>
-          </div>
-        </article>
-        <article class="element">
-          <img
-            src="./images/place-ubud.jpg"
-            alt="Убуд"
-            class="element__img"
-          >
-          <div class="element__body">
-            <h2 class="element__title">Убуд</h2>
-            <button class="element__like-btn"></button>
-          </div>
-        </article>
-        <article class="element">
-          <img
-            src="./images/place-milano.jpg"
-            alt="Милан"
-            class="element__img"
-          >
-          <div class="element__body">
-            <h2 class="element__title">Милан</h2>
-            <button class="element__like-btn"></button>
-          </div>
-        </article>
-        <article class="element">
-          <img
-            src="./images/place-stockholm.jpg"
-            alt="Стокгольм"
-            class="element__img"
-          >
-          <div class="element__body">
-            <h2 class="element__title">Стокгольм</h2>
-            <button class="element__like-btn"></button>
-          </div>
-        </article>
-        <article class="element">
-          <img
-            src="./images/place-donostia-san-sebastian.jpg"
-            alt="Доностия-Сан-Себастьян"
-            class="element__img"
-          >
-          <div class="element__body">
-            <h2 class="element__title">Доностия-Сан-Себастьян</h2>
-            <button class="element__like-btn"></button>
-          </div>
-        </article>
-      </section>
-    </main>
-
-    <footer class="footer">
-      <p class="footer__copyright">© 2020 Mesto Russia</p>
-    </footer>
   </div>
 
   <script src="./scripts/index.js"></script>
