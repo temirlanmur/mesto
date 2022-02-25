@@ -2,7 +2,6 @@
   width: 1.125rem;
   height: 1.125rem;
   margin-left: 10px;
-  vertical-align: .05rem;
   background-color: #000;
   background-image: url(../../../images/pencil-btn.svg);
   background-size: .47rem;
@@ -22,7 +21,8 @@
   .profile__edit-btn {
     width: 1.5rem;
     height: 1.5rem;
-    vertical-align: .15rem;
+    margin-left: 18px;
+    vertical-align: .8rem;
     background-size: .625rem;
   }
 }

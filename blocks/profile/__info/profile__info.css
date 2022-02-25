@@ -1,4 +1,9 @@
 .profile__info {
+  max-width: 340px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
   margin-top: 26px;
   text-align: center;
   color: #fff;

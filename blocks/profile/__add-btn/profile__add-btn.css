@@ -24,6 +24,7 @@
   .profile__add-btn {
     width: 150px;
     margin: 30px 200px 0;
+    background-size: 1.375rem;
   }
 }
 
