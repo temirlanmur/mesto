@@ -12,15 +12,17 @@ let formDescription = formElement.querySelector('#form-description');
 function showPopup() {
   popup.classList.toggle('popup_opened');
 
-  formName.setAttribute(
-    'value',
-    profileName.textContent
-  );
+  formName.value = profileName.textContent;
+  formDescription.value = profileDescription.textContent;
+}
 
-  formDescription.setAttribute(
-    'value',
-    profileDescription.textContent
-  );
+function formSubmitHandler (evt) {
+  evt.preventDefault();
+
+  profileName.textContent = formName.value;
+  profileDescription.textContent = formDescription.value;
+
+  showPopup();
 }
 
 profileEditBtn.addEventListener('click', showPopup);
@@ -28,16 +30,5 @@ profileEditBtn.addEventListener('click', showPopup);
 popupCloseBtn.addEventListener('click', () =>
   popup.classList.toggle('popup_opened')
 );
-
-function formSubmitHandler (evt) {
-  evt.preventDefault();
-
-  let inputName = formName.value;
-  let inputDescription = formDescription.value;
-
-  profileName.textContent = inputName;
-  profileDescription.textContent = inputDescription;
-  popup.classList.toggle('popup_opened');
-}
 
 formElement.addEventListener('submit', formSubmitHandler);
