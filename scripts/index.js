@@ -58,6 +58,10 @@ function addCard(placeName, imageLink) {
     evt.target.classList.toggle('element__like-btn_active');
   });
 
+  card.querySelector('.element__trash-btn').addEventListener('click', () => {
+    card.remove();
+  });
+
   elementsContainer.prepend(card);
 }
 
