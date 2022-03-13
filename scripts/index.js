@@ -54,6 +54,10 @@ function addCard(placeName, imageLink) {
   cardImage.src = imageLink;
   cardImage.alt = placeName;
 
+  card.querySelector('.element__like-btn').addEventListener('click', function(evt) {
+    evt.target.classList.toggle('element__like-btn_active');
+  });
+
   elementsContainer.prepend(card);
 }
 
