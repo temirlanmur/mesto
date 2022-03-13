@@ -54,7 +54,7 @@ function addCard(placeName, imageLink) {
   cardImage.src = imageLink;
   cardImage.alt = placeName;
 
-  elementsContainer.append(card);
+  elementsContainer.prepend(card);
 }
 
 function showEditProfilePopup() {
@@ -79,7 +79,10 @@ function showAddCardPopup() {
 
 function addCardFormSubmitHandler(evt) {
   evt.preventDefault();
-  // Add logic
+
+  addCard(addCardFormPlaceName.value, addCardFormPlaceLink.value);
+
+  showAddCardPopup();
 }
 
 initialCards.forEach((card) => {
