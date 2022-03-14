@@ -89,10 +89,20 @@
     </div>
   </div>
 
-  <template id="element-template">
+  <div id="imagePopup" class="popup">
+    <div class="popup__img-container">
+      <button type="button" class="popup__close-btn"></button>
+      <img class="popup__image">
+      <p class="popup__img-caption"></p>
+    </div>
+  </div>
+
+  <template id="elementTemplate">
     <article class="element">
       <button type="button" class="element__trash-btn"></button>
-      <img class="element__img">
+      <button type="button "class="element__popup-btn">
+        <img class="element__img">
+      </button>
       <div class="element__body">
         <h2 class="element__title"></h2>
         <button type="button" class="element__like-btn"></button>
