@@ -124,4 +124,6 @@ addCardBtn.addEventListener('click', showAddCardPopup);
 addCardForm.addEventListener('submit', addCardFormSubmitHandler);
 addCardCloseBtn.addEventListener('click', showAddCardPopup);
 
-imagePopupCloseBtn.addEventListener('click', showImagePopup);
+imagePopupCloseBtn.addEventListener('click', () => {
+  imagePopup.classList.toggle('popup_opened');
+});
