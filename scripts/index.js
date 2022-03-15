@@ -4,7 +4,7 @@ const profileDescription = profileBlock.querySelector('.profile__description');
 const profileEditBtn = profileBlock.querySelector('.profile__edit-btn');
 const addCardBtn = profileBlock.querySelector('.profile__add-btn');
 
-const editProfilePopup = document.querySelector('#editProfile');
+const editProfilePopup = document.querySelector('.popup_type_edit-profile');
 const editProfileForm = editProfilePopup.querySelector('.popup__container');
 const editProfileFormName = editProfileForm.querySelector('#editFormProfileName');
 const editProfileFormDescription = editProfileForm.querySelector('#editFormProfileDescription');
@@ -12,7 +12,7 @@ const editProfilePopupCloseBtn = editProfilePopup.querySelector('.popup__close-b
 
 const cardTemplate = document.querySelector('#elementTemplate').content;
 
-const addCardPopup = document.querySelector('#addCard');
+const addCardPopup = document.querySelector('.popup_type_add-card');
 const addCardForm = addCardPopup.querySelector('.popup__container');
 const addCardFormPlaceName = addCardForm.querySelector('#placeName');
 const addCardFormPlaceLink = addCardForm.querySelector('#placeLink');
