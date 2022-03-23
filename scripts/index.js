@@ -4,6 +4,8 @@ const profileDescription = profileBlock.querySelector('.profile__description');
 const profileEditBtn = profileBlock.querySelector('.profile__edit-btn');
 const addCardBtn = profileBlock.querySelector('.profile__add-btn');
 
+const popups = Array.from(document.querySelectorAll('.popup'));
+
 const editProfilePopup = document.querySelector('.popup_type_edit-profile');
 const editProfileForm = editProfilePopup.querySelector('.popup__container');
 const editProfileFormName = editProfileForm.querySelector('#profile-name-input');
@@ -52,15 +54,6 @@ const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
-
-const popups = Array.from(document.querySelectorAll('.popup'));
-popups.forEach((popup) => {
-  popup.addEventListener('click', (evt) => {
-    if (evt.target.classList.contains('popup')) {
-      closePopup(evt.target);
-    }
-  });
-});
 
 function openPopup(popup) {
   popup.classList.add('popup_opened');
@@ -134,69 +127,23 @@ function addCardFormSubmitHandler(evt) {
   closePopup(addCardPopup);
 }
 
-function showInputError(formElement, inputElement, errorMessage) {
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-
-  inputElement.classList.add('popup__input-field_type_error');
-
-  errorElement.textContent = errorMessage;
-  errorElement.classList.add('popup__input-error_active');
-}
-
-function hideInputError(formElement, inputElement) {
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-
-  inputElement.classList.remove('popup__input-field_type_error');
-
-  errorElement.textContent = '';
-  errorElement.classList.remove('popup__input-error_active');
-}
-
-function checkInputValidity(formElement, inputElement) {
-  if (!inputElement.validity.valid) {
-    showInputError(formElement, inputElement, inputElement.validationMessage);
-  } else {
-    hideInputError(formElement, inputElement);
-  }
-}
-
-function setEventListeners(formElement) {
-  const inputList = Array.from(formElement.querySelectorAll('.popup__input-field'));
-  const buttonElement = formElement.querySelector('.popup__submit-btn');
-  toggleButtonState(inputList, buttonElement);
-  inputList.forEach((inputElement) => {
-    inputElement.addEventListener('input', function () {
-      checkInputValidity(formElement, inputElement);
-      toggleButtonState(inputList, buttonElement);
+function keyHandler(evt) {
+  if (evt.key === "Escape") {
+    popups.forEach((popup) => {
+      closePopup(popup);
     });
+  }
+}
+
+popups.forEach((popup) => {
+  popup.addEventListener('click', (evt) => {
+    if (evt.target.classList.contains('popup')) {
+      closePopup(evt.target);
+    }
   });
-}
+});
 
-function hasInvalidInput(inputList) {
-  return inputList.some((inputElement) => {
-    return !inputElement.validity.valid;
-  })
-}
-
-function toggleButtonState(inputList, buttonElement) {
-  if (hasInvalidInput(inputList)) {
-    buttonElement.classList.add('popup__submit-btn_inactive');
-    buttonElement.disabled = true;
-  }
-  else {
-    buttonElement.classList.remove('popup__submit-btn_inactive');
-    buttonElement.disabled = false;
-  }
-}
-
-function enableValidation() {
-  const formList = Array.from(document.querySelectorAll('.popup__form'));
-  formList.forEach((formElement) => {
-    setEventListeners(formElement);
-  })
-}
-
-enableValidation();
+document.addEventListener('keydown', keyHandler);
 
 initialCards.forEach((card) => {
   renderCard(card);
