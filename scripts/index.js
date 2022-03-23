@@ -180,7 +180,14 @@ function toggleButtonState(inputList, buttonElement) {
   }
 }
 
-setEventListeners(editProfileForm);
+function enableValidation() {
+  const formList = Array.from(document.querySelectorAll('.popup__form'));
+  formList.forEach((formElement) => {
+    setEventListeners(formElement);
+  })
+}
+
+enableValidation();
 
 initialCards.forEach((card) => {
   renderCard(card);
