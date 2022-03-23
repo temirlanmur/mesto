@@ -124,14 +124,23 @@ function addCardFormSubmitHandler(evt) {
     link: addCardFormPlaceLink.value
   });
 
+  addCardFormPlaceName.value = '';
+  addCardFormPlaceLink.value = '';
+
   closePopup(addCardPopup);
 }
 
-function keyHandler(evt) {
+function escapeKeyHandler(evt) {
   if (evt.key === "Escape") {
     popups.forEach((popup) => {
       closePopup(popup);
     });
+  }
+}
+
+function addCardKeyHandler(evt) {
+  if (evt.key === "Enter") {
+    addCardFormSubmitHandler(evt);
   }
 }
 
@@ -143,7 +152,7 @@ popups.forEach((popup) => {
   });
 });
 
-document.addEventListener('keydown', keyHandler);
+document.addEventListener('keydown', escapeKeyHandler);
 
 initialCards.forEach((card) => {
   renderCard(card);
@@ -158,7 +167,9 @@ editProfilePopupCloseBtn.addEventListener('click', () => {
 addCardBtn.addEventListener('click', () => {
   openPopup(addCardPopup);
 });
+
 addCardForm.addEventListener('submit', addCardFormSubmitHandler);
+
 addCardCloseBtn.addEventListener('click', () => {
   closePopup(addCardPopup);
 });
@@ -166,3 +177,6 @@ addCardCloseBtn.addEventListener('click', () => {
 imagePopupCloseBtn.addEventListener('click', () => {
   closePopup(imagePopup);
 });
+
+addCardFormPlaceName.addEventListener('keydown', addCardKeyHandler);
+addCardFormPlaceLink.addEventListener('keydown', addCardKeyHandler);
