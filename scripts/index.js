@@ -20,7 +20,7 @@ const addCardFormPlaceName = addCardForm.querySelector('#place-name-input');
 const addCardFormPlaceLink = addCardForm.querySelector('#place-link-input');
 const addCardCloseBtn = addCardPopup.querySelector('.popup__close-btn');
 
-const imagePopup = document.querySelector('#image-popup');
+const imagePopup = document.querySelector('.popup_type_image');
 const img = imagePopup.querySelector('.popup__image');
 const imagePopupCloseBtn = imagePopup.querySelector('.popup__close-btn');
 
@@ -52,6 +52,15 @@ const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
+
+const popups = Array.from(document.querySelectorAll('.popup'));
+popups.forEach((popup) => {
+  popup.addEventListener('click', (evt) => {
+    if (evt.target.classList.contains('popup')) {
+      closePopup(evt.target);
+    }
+  });
+});
 
 function openPopup(popup) {
   popup.classList.add('popup_opened');
