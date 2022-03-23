@@ -9,6 +9,8 @@ const editProfileForm = editProfilePopup.querySelector('.popup__container');
 const editProfileFormName = editProfileForm.querySelector('#profile-name-input');
 const editProfileFormDescription = editProfileForm.querySelector('#profile-description-input');
 const editProfilePopupCloseBtn = editProfilePopup.querySelector('.popup__close-btn');
+editProfileFormName.value = profileName.textContent;
+editProfileFormDescription.value = profileDescription.textContent;
 
 const cardTemplate = document.querySelector('#element-template').content;
 
@@ -60,9 +62,6 @@ function closePopup(popup) {
 }
 
 function showEditProfilePopup() {
-  editProfileFormName.value = profileName.textContent;
-  editProfileFormDescription.value = profileDescription.textContent;
-
   openPopup(editProfilePopup);
 }
 
@@ -125,6 +124,63 @@ function addCardFormSubmitHandler(evt) {
 
   closePopup(addCardPopup);
 }
+
+function showInputError(formElement, inputElement, errorMessage) {
+  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+
+  inputElement.classList.add('popup__input-field_type_error');
+
+  errorElement.textContent = errorMessage;
+  errorElement.classList.add('popup__input-error_active');
+}
+
+function hideInputError(formElement, inputElement) {
+  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+
+  inputElement.classList.remove('popup__input-field_type_error');
+
+  errorElement.textContent = '';
+  errorElement.classList.remove('popup__input-error_active');
+}
+
+function checkInputValidity(formElement, inputElement) {
+  if (!inputElement.validity.valid) {
+    showInputError(formElement, inputElement, inputElement.validationMessage);
+  } else {
+    hideInputError(formElement, inputElement);
+  }
+}
+
+function setEventListeners(formElement) {
+  const inputList = Array.from(formElement.querySelectorAll('.popup__input-field'));
+  const buttonElement = formElement.querySelector('.popup__submit-btn');
+  toggleButtonState(inputList, buttonElement);
+  inputList.forEach((inputElement) => {
+    inputElement.addEventListener('input', function () {
+      checkInputValidity(formElement, inputElement);
+      toggleButtonState(inputList, buttonElement);
+    });
+  });
+}
+
+function hasInvalidInput(inputList) {
+  return inputList.some((inputElement) => {
+    return !inputElement.validity.valid;
+  })
+}
+
+function toggleButtonState(inputList, buttonElement) {
+  if (hasInvalidInput(inputList)) {
+    buttonElement.classList.add('popup__submit-btn_inactive');
+    buttonElement.disabled = true;
+  }
+  else {
+    buttonElement.classList.remove('popup__submit-btn_inactive');
+    buttonElement.disabled = false;
+  }
+}
+
+setEventListeners(editProfileForm);
 
 initialCards.forEach((card) => {
   renderCard(card);
