@@ -6,19 +6,19 @@ const addCardBtn = profileBlock.querySelector('.profile__add-btn');
 
 const editProfilePopup = document.querySelector('.popup_type_edit-profile');
 const editProfileForm = editProfilePopup.querySelector('.popup__container');
-const editProfileFormName = editProfileForm.querySelector('#editFormProfileName');
-const editProfileFormDescription = editProfileForm.querySelector('#editFormProfileDescription');
+const editProfileFormName = editProfileForm.querySelector('#profile-name-input');
+const editProfileFormDescription = editProfileForm.querySelector('#profile-description-input');
 const editProfilePopupCloseBtn = editProfilePopup.querySelector('.popup__close-btn');
 
-const cardTemplate = document.querySelector('#elementTemplate').content;
+const cardTemplate = document.querySelector('#element-template').content;
 
 const addCardPopup = document.querySelector('.popup_type_add-card');
 const addCardForm = addCardPopup.querySelector('.popup__container');
-const addCardFormPlaceName = addCardForm.querySelector('#placeName');
-const addCardFormPlaceLink = addCardForm.querySelector('#placeLink');
+const addCardFormPlaceName = addCardForm.querySelector('#place-name-input');
+const addCardFormPlaceLink = addCardForm.querySelector('#place-link-input');
 const addCardCloseBtn = addCardPopup.querySelector('.popup__close-btn');
 
-const imagePopup = document.querySelector('#imagePopup');
+const imagePopup = document.querySelector('#image-popup');
 const img = imagePopup.querySelector('.popup__image');
 const imagePopupCloseBtn = imagePopup.querySelector('.popup__close-btn');
 

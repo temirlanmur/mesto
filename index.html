@@ -43,19 +43,19 @@
     <div class="popup__container">
       <button type="button" class="popup__close-btn"></button>
       <h2 class="popup__header">Редактировать профиль</h2>
-      <form name="popup-form">
+      <form name="popup-form" novalidate>
         <input
           type="text"
           class="popup__input-field"
           name="form-name"
-          id="editFormProfileName"
+          id="profile-name-input"
           required
         >
         <input
           type="text"
           class="popup__input-field"
           name="form-description"
-          id="editFormProfileDescription"
+          id="profile-description-input"
           required
         >
         <button type="submit" class="popup__submit-btn">
@@ -74,7 +74,7 @@
           type="text"
           class="popup__input-field"
           name="place-name"
-          id="placeName"
+          id="place-name-input"
           placeholder="Название"
           required
         >
@@ -82,7 +82,7 @@
           type="url"
           class="popup__input-field"
           name="place-link"
-          id="placeLink"
+          id="place-link-input"
           placeholder="Ссылка на картинку"
           required
         >
@@ -93,7 +93,7 @@
     </div>
   </div>
 
-  <div id="imagePopup" class="popup popup_darker">
+  <div id="image-popup" class="popup popup_darker">
     <div class="popup__img-container">
       <button type="button" class="popup__close-btn"></button>
       <img class="popup__image">
@@ -101,7 +101,7 @@
     </div>
   </div>
 
-  <template id="elementTemplate">
+  <template id="element-template">
     <article class="element">
       <button type="button" class="element__trash-btn"></button>
       <button type="button" class="element__popup-btn">
