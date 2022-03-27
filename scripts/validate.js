@@ -1,4 +1,4 @@
-export const validationConfig = {
+const validationConfig = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input-field',
   submitButtonSelector: '.popup__submit-btn',
@@ -42,7 +42,7 @@ function hasInvalidInput(inputList) {
   })
 }
 
-export function toggleButtonState(inputList,
+function toggleButtonState(inputList,
                            buttonElement,
                            inactiveButtonClass) {
   if (hasInvalidInput(inputList)) {

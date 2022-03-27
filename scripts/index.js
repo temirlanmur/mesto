@@ -1,5 +1,3 @@
-import { validationConfig as settings, toggleButtonState } from "./validate.js";
-
 const profileBlock = document.querySelector('.profile');
 const profileName = profileBlock.querySelector('.profile__name');
 const profileDescription = profileBlock.querySelector('.profile__description');
@@ -72,9 +70,9 @@ function showEditProfilePopup() {
   editProfileFormName.value = profileName.textContent;
   editProfileFormDescription.value = profileDescription.textContent;
 
-  const inputList = Array.from(editProfileForm.querySelectorAll(settings.inputSelector));
+  const inputList = Array.from(editProfileForm.querySelectorAll(validationConfig.inputSelector));
 
-  toggleButtonState(inputList, editProfileFormSubmitBtn, settings.inactiveButtonClass);
+  toggleButtonState(inputList, editProfileFormSubmitBtn, validationConfig.inactiveButtonClass);
 
   openPopup(editProfilePopup);
 }
@@ -129,9 +127,9 @@ function showImagePopup(placeName, imageLink) {
 }
 
 function showAddCardPopup() {
-  const inputList = Array.from(addCardForm.querySelectorAll(settings.inputSelector));
+  const inputList = Array.from(addCardForm.querySelectorAll(validationConfig.inputSelector));
 
-  toggleButtonState(inputList, addCardSubmitBtn, settings.inactiveButtonClass)
+  toggleButtonState(inputList, addCardSubmitBtn, validationConfig.inactiveButtonClass)
 
   openPopup(addCardPopup);
 }
