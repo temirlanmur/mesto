@@ -1,3 +1,5 @@
+import { validationConfig as settings, toggleButtonState } from "./validate.js";
+
 const profileBlock = document.querySelector('.profile');
 const profileName = profileBlock.querySelector('.profile__name');
 const profileDescription = profileBlock.querySelector('.profile__description');
@@ -10,6 +12,7 @@ const editProfilePopup = document.querySelector('.popup_type_edit-profile');
 const editProfileForm = editProfilePopup.querySelector('.popup__container');
 const editProfileFormName = editProfileForm.querySelector('#profile-name-input');
 const editProfileFormDescription = editProfileForm.querySelector('#profile-description-input');
+const editProfileFormSubmitBtn = editProfileForm.querySelector('.popup__submit-btn');
 const editProfilePopupCloseBtn = editProfilePopup.querySelector('.popup__close-btn');
 
 const cardTemplate = document.querySelector('#element-template').content;
@@ -69,6 +72,10 @@ function showEditProfilePopup() {
   editProfileFormName.value = profileName.textContent;
   editProfileFormDescription.value = profileDescription.textContent;
 
+  const inputList = Array.from(editProfileForm.querySelectorAll(settings.inputSelector));
+
+  toggleButtonState(inputList, editProfileFormSubmitBtn, settings.inactiveButtonClass);
+
   openPopup(editProfilePopup);
 }
 
@@ -122,13 +129,14 @@ function showImagePopup(placeName, imageLink) {
 }
 
 function showAddCardPopup() {
-  addCardSubmitBtn.classList.add('popup__submit-btn_inactive');
-  addCardSubmitBtn.disabled = true;
+  const inputList = Array.from(addCardForm.querySelectorAll(settings.inputSelector));
+
+  toggleButtonState(inputList, addCardSubmitBtn, settings.inactiveButtonClass)
 
   openPopup(addCardPopup);
 }
 
-function addCardFormSubmitHandler(evt) {
+function handleSubmitAddCardForm(evt) {
   evt.preventDefault();
 
   renderCard({
@@ -170,7 +178,7 @@ editProfilePopupCloseBtn.addEventListener('click', () => {
 
 addCardBtn.addEventListener('click', showAddCardPopup);
 
-addCardForm.addEventListener('submit', addCardFormSubmitHandler);
+addCardForm.addEventListener('submit', handleSubmitAddCardForm);
 
 addCardCloseBtn.addEventListener('click', () => {
   closePopup(addCardPopup);

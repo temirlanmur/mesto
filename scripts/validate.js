@@ -1,4 +1,4 @@
-const validationConfig = {
+export const validationConfig = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input-field',
   submitButtonSelector: '.popup__submit-btn',
@@ -42,7 +42,7 @@ function hasInvalidInput(inputList) {
   })
 }
 
-function toggleButtonState(inputList,
+export function toggleButtonState(inputList,
                            buttonElement,
                            inactiveButtonClass) {
   if (hasInvalidInput(inputList)) {
@@ -60,7 +60,6 @@ function setEventListeners(formElement, settings)
   const inputList = Array.from(formElement.querySelectorAll(settings.inputSelector));
 
   const buttonElement = formElement.querySelector(settings.submitButtonSelector);
-  toggleButtonState(inputList, buttonElement, settings.inactiveButtonClass);
 
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', function () {
@@ -77,11 +76,4 @@ function enableValidation(settings) {
   })
 }
 
-enableValidation({
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input-field',
-  submitButtonSelector: '.popup__submit-btn',
-  inactiveButtonClass: 'popup__submit-btn_inactive',
-  inputErrorClass: 'popup__input-field_type_error',
-  errorClass: 'popup__input-error_active'
-});
+enableValidation(validationConfig);
