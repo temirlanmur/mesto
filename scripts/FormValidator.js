@@ -8,12 +8,12 @@ export default class FormValidator {
   _setEventListeners() {
     const formInputList = Array.from(
       this._form.querySelectorAll(this._settings.inputSelector));
-    const buttonElement = formElement.querySelector(settings.submitButtonSelector);
+    const buttonElement = this._form.querySelector(this._settings.submitButtonSelector);
 
     formInputList.forEach((inputElement) => {
-      inputElement.addEventListener('input', function () {
+      inputElement.addEventListener('input', () => {
         this._checkInputValidity(inputElement);
-        toggleButtonState(formInputList, buttonElement, settings.inactiveButtonClass);
+        this._toggleButtonState(formInputList, buttonElement);
       });
     });
   }
@@ -46,6 +46,23 @@ export default class FormValidator {
 
     errorElement.textContent = '';
     errorElement.classList.remove(this._settings.errorClass);
+  }
+
+  _toggleButtonState(inputList, buttonElement) {
+    if (this._hasInvalidInput(inputList)) {
+      buttonElement.classList.add(this._settings.inactiveButtonClass);
+      buttonElement.disabled = true;
+    }
+    else {
+      buttonElement.classList.remove(this._settings.inactiveButtonClass);
+      buttonElement.disabled = false;
+    }
+  }
+
+  _hasInvalidInput(inputList) {
+    return inputList.some((inputElement) => {
+      return !inputElement.validity.valid;
+    })
   }
 
   // enables validation for the passed form
