@@ -18,18 +18,18 @@ const profileName = profileElement.querySelector('.profile__name');
 const profileDescription = profileElement.querySelector('.profile__description');
 const profileEditButton = profileElement.querySelector('.profile__edit-btn');
 const profileEditPopup = document.querySelector('.popup_type_edit-profile');
-const profileEditForm = profileEditPopup.querySelector('.popup__container');
-const profileEditFormName = profileEditForm.querySelector('#profile-name-input');
-const profileEditFormDescription = profileEditForm.querySelector('#profile-description-input');
+const profileEditForm = document.forms.profileEditForm;
+const profileEditFormName = profileEditForm.elements.profileName;
+const profileEditFormDescription = profileEditForm.elements.profileDescription;
 const profileEditFormCloseButton = profileEditPopup.querySelector('.popup__close-btn');
 
 const cardCreateButton = profileElement.querySelector('.profile__add-btn');
 const cardCreatePopup = document.querySelector('.popup_type_add-card');
-const cardCreateForm = cardCreatePopup.querySelector('.popup__container');
-const cardCreateFormPlaceName = cardCreateForm.querySelector('#place-name-input');
-const cardCreateFormPlaceLink = cardCreateForm.querySelector('#place-link-input');
+const cardCreateForm = document.forms.cardCreateForm;
+const cardCreateFormPlaceName = cardCreateForm.elements.placeName;
+const cardCreateFormPlaceLink = cardCreateForm.elements.placeLink;
 const cardCreateFormCloseButton = cardCreatePopup.querySelector('.popup__close-btn');
-const cardCreateFormSubmitButton = cardCreateForm.querySelector('.popup__submit-btn');
+const cardCreateFormSubmitButton = cardCreatePopup.querySelector('.popup__submit-btn');
 const cardCreateFormInputsArray = Array.from(cardCreateForm.querySelectorAll(validationConfig.inputSelector));
 const cardTemplateSelector = '#element-template';
 
@@ -114,8 +114,7 @@ const handleCardCreateFormSubmit = (evt) => {
   renderCard(cardData, cardTemplateSelector);
 
   closePopup(cardCreatePopup);
-  cardCreateFormPlaceName.value = '';
-  cardCreateFormPlaceLink.value = '';
+  cardCreateForm.reset();
 }
 
 
