@@ -1,5 +1,6 @@
 import Card from "./Card.js"
 import FormValidator from "./FormValidator.js";
+import { openPopup, closePopup } from "./utils.js";
 import { initialCards } from "./data.js";
 
 const validationConfig = {
@@ -38,33 +39,6 @@ const imagePopup = document.querySelector('.popup_type_image');
 const imagePopupCloseButton = imagePopup.querySelector('.popup__close-btn');
 
 
-// UTILITY FUNCTIONS:
-const openPopup = (popup) => {
-  popup.classList.add('popup_opened');
-  document.addEventListener('keydown', closePopupByEscape);
-}
-
-const closePopup = (popup) => {
-  popup.classList.remove('popup_opened');
-  document.removeEventListener('keydown', closePopupByEscape);
-}
-
-const closePopupByEscape = (evt) => {
-  if (evt.key === "Escape") {
-    const popupToClose = document.querySelector('.popup_opened');
-    closePopup(popupToClose);
-  }
-}
-
-// Renders card element on the page
-const renderCard = (cardData, cardTemplateSelector) => {
-  const card = new Card(cardData, cardTemplateSelector);
-  const cardElement = card.generateCard();
-
-  elementsContainer.prepend(cardElement);
-}
-
-
 // PROFILE CALLBACKS:
 const showProfileEditForm = () => {
   profileEditFormName.value = profileName.textContent;
@@ -101,6 +75,15 @@ const handleCardCreateFormSubmit = (evt) => {
 
   closePopup(cardCreatePopup);
   cardCreateForm.reset();
+}
+
+
+// Renders card element on the page
+const renderCard = (cardData, cardTemplateSelector) => {
+  const card = new Card(cardData, cardTemplateSelector);
+  const cardElement = card.generateCard();
+
+  elementsContainer.prepend(cardElement);
 }
 
 

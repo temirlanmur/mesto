@@ -1,3 +1,5 @@
+import { openPopup } from "./utils.js";
+
 export default class Card {
   popup = document.querySelector('.popup_type_image');
   popupImage = this.popup.querySelector('.popup__image');
@@ -49,7 +51,7 @@ export default class Card {
 
     this.popupImageCaption.textContent = this._title;
 
-    this.popup.classList.add('popup_opened');
+    openPopup(this.popup);
   }
 
   // callback func for event listener; likes card
