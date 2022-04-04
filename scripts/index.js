@@ -22,6 +22,7 @@ const profileEditForm = document.forms.profileEditForm;
 const profileEditFormName = profileEditForm.elements.profileName;
 const profileEditFormDescription = profileEditForm.elements.profileDescription;
 const profileEditFormCloseButton = profileEditPopup.querySelector('.popup__close-btn');
+const profileEditFormValidator = new FormValidator(validationConfig, profileEditForm);
 
 const cardCreateButton = profileElement.querySelector('.profile__add-btn');
 const cardCreatePopup = document.querySelector('.popup_type_add-card');
@@ -29,8 +30,7 @@ const cardCreateForm = document.forms.cardCreateForm;
 const cardCreateFormPlaceName = cardCreateForm.elements.placeName;
 const cardCreateFormPlaceLink = cardCreateForm.elements.placeLink;
 const cardCreateFormCloseButton = cardCreatePopup.querySelector('.popup__close-btn');
-const cardCreateFormSubmitButton = cardCreatePopup.querySelector('.popup__submit-btn');
-const cardCreateFormInputsArray = Array.from(cardCreateForm.querySelectorAll(validationConfig.inputSelector));
+const cardCreateFormValidator = new FormValidator(validationConfig, cardCreateForm);
 const cardTemplateSelector = '#element-template';
 
 const popups = Array.from(document.querySelectorAll('.popup'));
@@ -64,20 +64,6 @@ const renderCard = (cardData, cardTemplateSelector) => {
   elementsContainer.prepend(cardElement);
 }
 
-const toggleCardCreateFormSubmitButton = () => {
-  if (cardCreateFormInputsArray.some(input => !input.validity.valid)) {
-    cardCreateFormSubmitButton
-      .classList
-      .add(validationConfig.inactiveButtonClass);
-    cardCreateFormSubmitButton.disabled = true;
-  } else {
-    cardCreateFormSubmitButton
-      .classList
-      .remove(validationConfig.inactiveButtonClass);
-    cardCreateFormSubmitButton.disabled = false;
-  }
-}
-
 
 // PROFILE CALLBACKS:
 const showProfileEditForm = () => {
@@ -99,7 +85,7 @@ const handleProfileEditFormSubmit = (evt) => {
 
 // CARD CALLBACKS:
 const showCardCreateForm = () => {
-  toggleCardCreateFormSubmitButton();
+  cardCreateFormValidator.toggleButtonState();
   openPopup(cardCreatePopup);
 }
 
@@ -157,8 +143,5 @@ initialCards.forEach((cardData) => {
 
 
 // Enable form validation
-const forms = Array.from(document.forms);
-forms.forEach((form) => {
-  const validator = new FormValidator(validationConfig, form);
-  validator.enableValidation();
-})
+profileEditFormValidator.enableValidation();
+cardCreateFormValidator.enableValidation();

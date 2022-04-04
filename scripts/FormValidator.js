@@ -2,18 +2,17 @@ export default class FormValidator {
   constructor(validationSettings, formElement) {
     this._settings = validationSettings;
     this._form = formElement;
+    this._formInputsArray = Array.from(
+      formElement.querySelectorAll(validationSettings.inputSelector));
+    this._formSubmitButton = formElement.querySelector(validationSettings.submitButtonSelector);
   }
 
   // adds listeners to form
   _setEventListeners() {
-    const formInputList = Array.from(
-      this._form.querySelectorAll(this._settings.inputSelector));
-    const buttonElement = this._form.querySelector(this._settings.submitButtonSelector);
-
-    formInputList.forEach((inputElement) => {
+    this._formInputsArray.forEach((inputElement) => {
       inputElement.addEventListener('input', () => {
         this._checkInputValidity(inputElement);
-        this._toggleButtonState(formInputList, buttonElement);
+        this.toggleButtonState();
       });
     });
   }
@@ -48,19 +47,20 @@ export default class FormValidator {
     errorElement.classList.remove(this._settings.errorClass);
   }
 
-  _toggleButtonState(inputList, buttonElement) {
-    if (this._hasInvalidInput(inputList)) {
-      buttonElement.classList.add(this._settings.inactiveButtonClass);
-      buttonElement.disabled = true;
+  // toggles form submit button based on input validity
+  toggleButtonState() {
+    if (this._hasInvalidInputState()) {
+      this._formSubmitButton.classList.add(this._settings.inactiveButtonClass);
+      this._formSubmitButton.disabled = true;
     }
     else {
-      buttonElement.classList.remove(this._settings.inactiveButtonClass);
-      buttonElement.disabled = false;
+      this._formSubmitButton.classList.remove(this._settings.inactiveButtonClass);
+      this._formSubmitButton.disabled = false;
     }
   }
 
-  _hasInvalidInput(inputList) {
-    return inputList.some((inputElement) => {
+  _hasInvalidInputState() {
+    return this._formInputsArray.some((inputElement) => {
       return !inputElement.validity.valid;
     })
   }
