@@ -57,7 +57,10 @@ const closePopupByEscape = (evt) => {
 }
 
 // Renders card element on the page
-const renderCard = (cardElement) => {
+const renderCard = (cardData, cardTemplateSelector) => {
+  const card = new Card(cardData, cardTemplateSelector);
+  const cardElement = card.generateCard();
+
   elementsContainer.prepend(cardElement);
 }
 
@@ -108,10 +111,7 @@ const handleCardCreateFormSubmit = (evt) => {
     link: cardCreateFormPlaceLink.value
   };
 
-  const card = new Card(cardData, cardTemplateSelector);
-  const cardElement = card.generateCard();
-
-  renderCard(cardElement);
+  renderCard(cardData, cardTemplateSelector);
 
   closePopup(cardCreatePopup);
   cardCreateFormPlaceName.value = '';
@@ -153,10 +153,7 @@ popups.forEach((popup) => {
 
 // Render initial cards
 initialCards.forEach((cardData) => {
-  const card = new Card(cardData, cardTemplateSelector);
-  const cardElement = card.generateCard();
-
-  renderCard(cardElement);
+  renderCard(cardData, cardTemplateSelector);
 });
 
 
