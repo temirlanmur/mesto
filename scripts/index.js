@@ -44,6 +44,9 @@ const showProfileEditForm = () => {
   profileEditFormName.value = profileName.textContent;
   profileEditFormDescription.value = profileDescription.textContent;
 
+  profileEditFormValidator.resetErrors();
+  profileEditFormValidator.toggleButtonState();
+
   openPopup(profileEditPopup);
 }
 
