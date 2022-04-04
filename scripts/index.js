@@ -51,8 +51,7 @@ const closePopup = (popup) => {
 
 const closePopupByEscape = (evt) => {
   if (evt.key === "Escape") {
-    const popupToClose = popups.find(popup => popup.classList.contains('popup_opened'));
-    console.log(popupToClose);
+    const popupToClose = document.querySelector('.popup_opened');
     closePopup(popupToClose);
   }
 }
