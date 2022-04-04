@@ -37,7 +37,9 @@ export default class Card {
     // remove card
     this._element
       .querySelector('.element__trash-btn')
-      .addEventListener('click', this._removeCard)
+      .addEventListener('click', () => {
+        this._removeCard()
+      });
   }
 
   // callback func for event listener; opens image
@@ -56,8 +58,8 @@ export default class Card {
   }
 
   // callback func for event listener; removes card
-  _removeCard(evt) {
-    evt.target.closest('.element').remove();
+  _removeCard() {
+    this._element.remove();
   }
 
   // returns card markup with title & image, and added event listeners
