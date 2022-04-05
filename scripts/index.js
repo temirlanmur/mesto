@@ -74,18 +74,22 @@ const handleCardCreateFormSubmit = (evt) => {
     link: cardCreateFormPlaceLink.value
   };
 
-  renderCard(cardData, cardTemplateSelector);
+  const cardElement = createCard(cardData, cardTemplateSelector);
+  renderCard(cardElement);
 
   closePopup(cardCreatePopup);
   cardCreateForm.reset();
 }
 
 
-// Renders card element on the page
-const renderCard = (cardData, cardTemplateSelector) => {
+// Creates card element
+const createCard = (cardData, cardTemplateSelector) => {
   const card = new Card(cardData, cardTemplateSelector);
-  const cardElement = card.generateCard();
+  return card.generateCard();
+}
 
+// Renders card element on the page
+const renderCard = (cardElement) => {
   elementsContainer.prepend(cardElement);
 }
 
@@ -124,7 +128,8 @@ popups.forEach((popup) => {
 
 // Render initial cards
 initialCards.forEach((cardData) => {
-  renderCard(cardData, cardTemplateSelector);
+  const cardElement = createCard(cardData, cardTemplateSelector);
+  renderCard(cardElement);
 });
 
 
