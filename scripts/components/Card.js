@@ -5,9 +5,9 @@ export default class Card {
   popupImage = this.popup.querySelector('.popup__image');
   popupImageCaption = this.popup.querySelector('.popup__img-caption');
 
-  constructor(cardData, cardTemplateSelector) {
-    this._title = cardData.name;
-    this._imageLink = cardData.link;
+  constructor({ name, link }, cardTemplateSelector) {
+    this._title = name;
+    this._imageLink = link;
     this._cardSelector = cardTemplateSelector;
   }
 
