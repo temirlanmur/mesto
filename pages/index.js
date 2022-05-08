@@ -1,7 +1,8 @@
-import Card from "./Card.js"
-import FormValidator from "./FormValidator.js";
-import { openPopup, closePopup } from "./utils.js";
-import { initialCards } from "./data.js";
+import Card from "../scripts/components/Card.js"
+import FormValidator from "../scripts/components/FormValidator.js";
+import Section from "../scripts/components/Section.js";
+import { openPopup, closePopup } from "../scripts/utils/utils.js";
+import { initialCards } from "../scripts/utils/data.js";
 
 const validationConfig = {
   formSelector: '.popup__form',
@@ -13,6 +14,7 @@ const validationConfig = {
 }
 
 const elementsContainer = document.querySelector('.elements');
+const cardListSelector = '.elements';
 
 const profileElement = document.querySelector('.profile');
 const profileName = profileElement.querySelector('.profile__name');
@@ -127,10 +129,21 @@ popups.forEach((popup) => {
 
 
 // Render initial cards
-initialCards.forEach((cardData) => {
-  const cardElement = createCard(cardData, cardTemplateSelector);
-  renderCard(cardElement);
-});
+// initialCards.forEach((cardData) => {
+//   const cardElement = createCard(cardData, cardTemplateSelector);
+//   renderCard(cardElement);
+// });
+const cardList = new Section(
+  {
+    items: initialCards,
+    renderer: (item) => {
+      const card = new Card(item, cardTemplateSelector);
+      cardList.addItem(card.generateCard());
+    }
+  },
+  cardListSelector);
+
+cardList.renderItems();
 
 
 // Enable form validation

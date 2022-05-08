@@ -1,4 +1,4 @@
-import { openPopup } from "./utils.js";
+import { openPopup } from "../utils/utils.js";
 
 export default class Card {
   popup = document.querySelector('.popup_type_image');
