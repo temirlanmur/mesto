@@ -6,8 +6,13 @@ export default class Section {
   }
 
   // adds markup item to the end of the section container
-  addItem(item) {
+  appendItem(item) {
     this._container.append(item);
+  }
+
+  // adds markup item at the front of the section container
+  prependItem(item) {
+    this._container.prepend(item);
   }
 
   // renders all items added to the section using provided function

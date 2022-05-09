@@ -1,10 +1,4 @@
-import { openPopup } from "../utils/utils.js";
-
 export default class Card {
-  popup = document.querySelector('.popup_type_image');
-  popupImage = this.popup.querySelector('.popup__image');
-  popupImageCaption = this.popup.querySelector('.popup__img-caption');
-
   constructor({ name, link }, handleCardClick, cardTemplateSelector) {
     this._title = name;
     this._imageLink = link;
@@ -29,8 +23,7 @@ export default class Card {
     this._element
       .querySelector('.element__popup-btn')
       .addEventListener('click', () => {
-        //this._showImagePopup()
-        this._handleCardClick();
+        this._handleCardClick(this._title, this._imageLink);
       });
 
     // like card
@@ -44,16 +37,6 @@ export default class Card {
       .addEventListener('click', () => {
         this._removeCard()
       });
-  }
-
-  // callback func for event listener; opens image
-  _showImagePopup() {
-    this.popupImage.src = this._imageLink;
-    this.popupImage.alt = this._title;
-
-    this.popupImageCaption.textContent = this._title;
-
-    openPopup(this.popup);
   }
 
   // callback func for event listener; likes card
