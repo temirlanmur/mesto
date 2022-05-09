@@ -19,15 +19,10 @@ export default class Popup {
   //    on close button
   //    on click outside modal window
   setEventListeners() {
-    const popupCloseButton = this._popup.querySelector('.popup__close-btn');
-
-    popupCloseButton.addEventListener('click', () => {
-      this.close();
-    });
-
     this._popup.addEventListener('click', ((evt) => {
-      if (evt.target.classList.contains('popup_opened')) {
-        this.close();
+      if (evt.target.classList.contains('popup__close-btn')
+        || evt.target.classList.contains('popup_opened')) {
+          this.close();
       }
     }));
   }
