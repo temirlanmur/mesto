@@ -61,8 +61,8 @@ const showProfileEditForm = () => {
 // Callback to handle form submit
 const handleProfileEditFormSubmit = (profileData) => {
   userInfo.setUserInfo({
-    profileName: profileData.profileName.value,
-    profileDescription: profileData.profileDescription.value
+    profileName: profileData['profileName'],
+    profileDescription: profileData['profileDescription']
   });
 };
 
@@ -88,8 +88,8 @@ const showCardAddForm = () => {
 // Callback to handle form submit
 const handleCardAddFormSubmit = (cardData) => {
   const card = new Card({
-    name: cardData.placeName.value,
-    link: cardData.placeLink.value
+    name: cardData['placeName'],
+    link: cardData['placeLink']
   },
   handleCardClick,
   cardTemplateSelector);

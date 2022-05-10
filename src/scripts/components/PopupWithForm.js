@@ -22,6 +22,8 @@ export default class PopupWithForm extends Popup {
   }
 
   _getInputValues() {
-    return this._form.elements;
+    this._formValues = {};
+    Array.from(this._form.elements).forEach(input => this._formValues[input.name] = input.value);
+    return this._formValues;
   }
 }
