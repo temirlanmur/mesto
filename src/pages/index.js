@@ -60,10 +60,7 @@ const showProfileEditForm = () => {
 
 // Callback to handle form submit
 const handleProfileEditFormSubmit = (profileData) => {
-  userInfo.setUserInfo({
-    profileName: profileData['profileName'],
-    profileDescription: profileData['profileDescription']
-  });
+  userInfo.setUserInfo(profileData);
 };
 
 // Popup
@@ -78,6 +75,11 @@ profileEditButton.addEventListener('click', () => {
 
 
 /* CARD COMPONENT */
+// Returns card element with populated data
+const generateCard = (cardData) => {
+  return new Card(cardData, handleCardClick, cardTemplateSelector).generateCard();
+}
+
 // Callback to open popup
 const showCardAddForm = () => {
   cardAddFormValidator.resetErrors();
@@ -87,13 +89,7 @@ const showCardAddForm = () => {
 
 // Callback to handle form submit
 const handleCardAddFormSubmit = (cardData) => {
-  const card = new Card({
-    name: cardData['placeName'],
-    link: cardData['placeLink']
-  },
-  handleCardClick,
-  cardTemplateSelector);
-  cardList.prependItem(card.generateCard());
+  cardList.prependItem(generateCard(cardData));
 }
 
 // Callback to open image popup
@@ -116,8 +112,7 @@ const cardList = new Section(
   {
     items: initialCards,
     renderer: (cardData) => {
-      const card = new Card(cardData, handleCardClick, cardTemplateSelector);
-      cardList.appendItem(card.generateCard());
+      cardList.appendItem(generateCard(cardData));
     }
   },
   cardListSelector
