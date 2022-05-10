@@ -8,13 +8,11 @@ export default class Card {
 
   // returns html markup
   _getTemplate() {
-    const cardElement = document
+    return document
       .querySelector(this._cardSelector)
       .content
       .querySelector('.element')
       .cloneNode(true);
-
-    return cardElement;
   }
 
   // adds listeners to markup
