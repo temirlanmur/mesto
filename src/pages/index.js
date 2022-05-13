@@ -9,6 +9,7 @@ import FormValidator from '../scripts/components/FormValidator.js';
 import Api from '../scripts/components/Api.js';
 import { initialCards } from '../scripts/utils/data.js';
 
+
 const validationConfig = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input-field',
@@ -165,9 +166,14 @@ api.getUserInfo()
 /* LOAD CARDS */
 api.getCards()
   .then(cards => {
-    cards.forEach(cardData => {
+    cards.forEach(rawData => {
+      const cardData = {
+        name: rawData.name,
+        link: rawData.link,
+        likesCount: rawData.likes.length
+      };
       cardsContainer.append(generateCard(cardData));
-    })
+    });
   })
   .catch(err => {
     cardsContainer.textContent = 'Cards cannot be retrieved';
