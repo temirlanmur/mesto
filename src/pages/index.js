@@ -89,7 +89,10 @@ profileEditButton.addEventListener('click', () => {
 /* CARD COMPONENT */
 // Returns card element with populated data
 const generateCard = (cardData) => {
-  return new Card(cardData, handleCardClick, cardTemplateSelector).generateCard();
+  return new Card({
+    placeName: cardData.name,
+    placeLink: cardData.link
+  }, handleCardClick, cardTemplateSelector).generateCard();
 }
 
 // Callback to open popup
@@ -120,17 +123,17 @@ imagePopup.setEventListeners();
 
 
 /* CARDS RENDERING */
-const cardList = new Section(
-  {
-    items: initialCards,
-    renderer: (cardData) => {
-      cardList.appendItem(generateCard(cardData));
-    }
-  },
-  cardListSelector
-);
-
-cardList.renderItems();
+// const cardList = new Section(
+//   {
+//     items: initialCards,
+//     renderer: (cardData) => {
+//       cardList.appendItem(generateCard(cardData));
+//     }
+//   },
+//   cardListSelector
+// );
+//
+// cardList.renderItems();
 
 
 /* LOAD PROFILE */
@@ -146,5 +149,20 @@ api.getUserInfo()
       profileName: 'Jacques Cousteau',
       profileDescription: 'Sailor, researcher'
     });
+    console.log(err);
+  });
+
+
+/* LOAD CARDS */
+const cardsContainer = document.querySelector(cardListSelector);
+
+api.getCards()
+  .then(cards => {
+    cards.forEach(cardData => {
+      cardsContainer.append(generateCard(cardData));
+    })
+  })
+  .catch(err => {
+    cardsContainer.textContent = 'Cards cannot be retrieved';
     console.log(err);
   });
