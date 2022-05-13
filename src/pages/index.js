@@ -35,6 +35,7 @@ const profileEditFormValidator = new FormValidator(validationConfig, profileEdit
 const cardAddForm = document.forms.cardCreateForm;
 const cardAddButton = document.querySelector('.profile__add-btn');
 const cardAddFormValidator = new FormValidator(validationConfig, cardAddForm);
+const cardsContainer = document.querySelector(cardListSelector);
 
 
 /* VALIDATORS INITIALIZATION */
@@ -94,10 +95,7 @@ profileEditButton.addEventListener('click', () => {
 /* CARD COMPONENT */
 // Returns card element with populated data
 const generateCard = (cardData) => {
-  return new Card({
-    placeName: cardData.name,
-    placeLink: cardData.link
-  }, handleCardClick, cardTemplateSelector).generateCard();
+  return new Card(cardData, handleCardClick, cardTemplateSelector).generateCard();
 }
 
 // Callback to open popup
@@ -108,8 +106,14 @@ const showCardAddForm = () => {
 }
 
 // Callback to handle form submit
-const handleCardAddFormSubmit = (cardData) => {
-  cardList.prependItem(generateCard(cardData));
+const handleCardAddFormSubmit = (formData) => {
+  const cardData = {
+    name: formData.placeName,
+    link: formData.placeLink
+  };
+  api.addCard(cardData)
+    .then(cardsContainer.prepend(generateCard(cardData)))
+    .catch(err => console.log(err));
 }
 
 // Callback to open image popup
@@ -159,8 +163,6 @@ api.getUserInfo()
 
 
 /* LOAD CARDS */
-const cardsContainer = document.querySelector(cardListSelector);
-
 api.getCards()
   .then(cards => {
     cards.forEach(cardData => {

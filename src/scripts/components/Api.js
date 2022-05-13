@@ -49,4 +49,20 @@ export default class Api {
         return Promise.reject(`Ошибка: ${response}`);
       })
   }
+
+  // sends request to add new card
+  addCard({ name, link }) {
+    return fetch(this._baseUrl + '/cards', {
+      method: 'POST',
+      headers: this._headers,
+      body: JSON.stringify({ name: name, link: link })
+    })
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+
+        return Promise.reject(`Ошибка: ${response}`);
+      })
+  }
 }
