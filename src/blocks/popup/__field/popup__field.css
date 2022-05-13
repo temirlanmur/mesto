@@ -2,5 +2,10 @@
   display: inline-block;
   width: 100%;
   position: relative;
-  margin-top: 33px;
+  margin-bottom: 34px;
+}
+
+.popup__field:last-of-type {
+  margin-bottom: 48px;
+
 }
