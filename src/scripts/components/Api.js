@@ -33,4 +33,20 @@ export default class Api {
         return Promise.reject(`Ошибка: ${response}`);
       })
   }
+
+  // sends request to update user profile
+  updateProfile({ name, about }) {
+    return fetch(this._baseUrl + '/users/me', {
+      method: 'PATCH',
+      headers: this._headers,
+      body: JSON.stringify({ name: name, about: about })
+    })
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+
+        return Promise.reject(`Ошибка: ${response}`);
+      })
+  }
 }

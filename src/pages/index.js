@@ -72,7 +72,12 @@ const showProfileEditForm = () => {
 
 // Callback to handle form submit
 const handleProfileEditFormSubmit = (profileData) => {
-  userInfo.setUserInfo(profileData);
+  api.updateProfile({
+    name: profileData.profileName,
+    about: profileData.profileDescription
+  })
+    .then(userInfo.setUserInfo(profileData))
+    .catch(err => console.log(err));
 };
 
 // Popup
