@@ -1,12 +1,13 @@
 import './index.css';
 
-import Card from "../scripts/components/Card.js";
-import PopupWithForm from "../scripts/components/PopupWithForm.js";
-import PopupWithImage from "../scripts/components/PopupWithImage.js";
-import UserInfo from "../scripts/components/UserInfo.js";
-import Section from "../scripts/components/Section.js";
-import FormValidator from "../scripts/components/FormValidator.js";
-import { initialCards } from "../scripts/utils/data.js";
+import Card from '../scripts/components/Card.js';
+import PopupWithForm from '../scripts/components/PopupWithForm.js';
+import PopupWithImage from '../scripts/components/PopupWithImage.js';
+import UserInfo from '../scripts/components/UserInfo.js';
+import Section from '../scripts/components/Section.js';
+import FormValidator from '../scripts/components/FormValidator.js';
+import Api from '../scripts/components/Api.js';
+import { initialCards } from '../scripts/utils/data.js';
 
 const validationConfig = {
   formSelector: '.popup__form',
@@ -36,16 +37,27 @@ const cardAddButton = document.querySelector('.profile__add-btn');
 const cardAddFormValidator = new FormValidator(validationConfig, cardAddForm);
 
 
-/* VALIDATION */
+/* VALIDATORS INITIALIZATION */
 profileEditFormValidator.enableValidation();
 cardAddFormValidator.enableValidation();
 
 
-/* PROFILE COMPONENT */
+/* USERINFO COMPONENT INITIALIZATION */
 const userInfo = new UserInfo({
   profileNameSelector,
   profileDescriptionSelector
 });
+
+
+/* API COMPONENT INITIALIZATION */
+const api = new Api({
+  baseUrl: 'https://nomoreparties.co/v1/cohort-40',
+  headers: {
+    authorization: '676c0732-35dd-41a8-a513-8cdd7e2d2f94',
+    'Content-Type': 'application/json'
+  }
+});
+
 
 // Callback to open popup
 const showProfileEditForm = () => {
@@ -119,3 +131,20 @@ const cardList = new Section(
 );
 
 cardList.renderItems();
+
+
+/* LOAD PROFILE */
+api.getUserInfo()
+  .then(data => {
+    userInfo.setUserInfo({
+      profileName: data.name,
+      profileDescription: data.about
+    })
+  })
+  .catch(err => {
+    userInfo.setUserInfo({
+      profileName: 'Jacques Cousteau',
+      profileDescription: 'Sailor, researcher'
+    });
+    console.log(err);
+  });
