@@ -8,6 +8,7 @@ import Section from '../scripts/components/Section.js';
 import FormValidator from '../scripts/components/FormValidator.js';
 import Api from '../scripts/components/Api.js';
 import { initialCards } from '../scripts/utils/data.js';
+import Popup from '../scripts/components/Popup';
 
 
 const validationConfig = {
@@ -21,6 +22,7 @@ const validationConfig = {
 
 const cardListSelector = '.elements';
 const cardAddPopupSelector = '.popup_type_add-card';
+const cardDeletePopupSelector = '.popup_type_delete-card';
 const cardTemplateSelector = '#element-template';
 const profileEditPopupSelector = '.popup_type_edit-profile';
 const profileNameSelector = '.profile__name';
@@ -37,6 +39,8 @@ const cardAddForm = document.forms.cardCreateForm;
 const cardAddButton = document.querySelector('.profile__add-btn');
 const cardAddFormValidator = new FormValidator(validationConfig, cardAddForm);
 const cardsContainer = document.querySelector(cardListSelector);
+const cardDeleteForm = document.forms.cardDeleteForm;
+const cardDeleteFormCardId = cardDeleteForm.elements.cardId;
 
 
 /* VALIDATORS INITIALIZATION */
@@ -60,7 +64,7 @@ const api = new Api({
   }
 });
 
-
+/* PROFILE */
 // Callback to open popup
 const showProfileEditForm = () => {
   const profileData = userInfo.getUserInfo();
@@ -93,7 +97,7 @@ profileEditButton.addEventListener('click', () => {
 });
 
 
-/* CARD COMPONENT */
+/* CARD */
 // Returns card element with populated data
 const generateCard = (cardData) => {
   return new Card(cardData, handleCardClick, cardTemplateSelector).generateCard();
@@ -128,22 +132,20 @@ cardAddButton.addEventListener('click', () => {
   showCardAddForm();
 });
 
+const handleCardDelete = (formData) => {
+  // make api call
+  // delete card: card.remove()
+}
+
+const cardDeletePopup = new PopupWithForm(handleCardDelete ,cardDeletePopupSelector);
+
+const openCardDeletePopup = (cardId) => {
+  cardDeleteFormCardId.value = cardId;
+  cardDeletePopup.open();
+}
+
 const imagePopup = new PopupWithImage(imagePopupSelector);
 imagePopup.setEventListeners();
-
-
-/* CARDS RENDERING */
-// const cardList = new Section(
-//   {
-//     items: initialCards,
-//     renderer: (cardData) => {
-//       cardList.appendItem(generateCard(cardData));
-//     }
-//   },
-//   cardListSelector
-// );
-//
-// cardList.renderItems();
 
 
 /* LOAD PROFILE */
@@ -166,16 +168,30 @@ api.getUserInfo()
 /* LOAD CARDS */
 api.getCards()
   .then(cards => {
-    cards.forEach(rawData => {
-      const cardData = {
-        name: rawData.name,
-        link: rawData.link,
-        likesCount: rawData.likes.length
-      };
-      cardsContainer.append(generateCard(cardData));
-    });
+
+    const cardList = new Section({
+      items: cards.map(function(item) {
+        return {
+          name: item.name,
+          link: item.link,
+          likesCount: item.likes.length
+        }
+      }),
+      renderer: data => cardList.prependItem(generateCard(data))
+    }, cardListSelector);
+
+    cardList.renderItems();
+
   })
   .catch(err => {
-    cardsContainer.textContent = 'Cards cannot be retrieved';
     console.log(err);
   });
+
+  // cards.forEach(rawData => {
+    //   const cardData = {
+    //     name: rawData.name,
+    //     link: rawData.link,
+    //     likesCount: rawData.likes.length
+    //   };
+    //   cardsContainer.append(generateCard(cardData));
+    // });
