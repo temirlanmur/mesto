@@ -12,6 +12,10 @@ export default class PopupWithForm extends Popup {
     super.close();
   }
 
+  // sets event listeners:
+  //    on close button
+  //    on click outside modal window
+  //    on form submit
   setEventListeners() {
     super.setEventListeners();
     this._form.addEventListener('submit', (evt) => {

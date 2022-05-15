@@ -1,61 +1,40 @@
 import './index.css';
 
 import Card from '../scripts/components/Card.js';
-import PopupWithForm from '../scripts/components/PopupWithForm.js';
-import PopupWithImage from '../scripts/components/PopupWithImage.js';
 import UserInfo from '../scripts/components/UserInfo.js';
 import Section from '../scripts/components/Section.js';
+import PopupWithForm from '../scripts/components/PopupWithForm.js';
+import PopupWithImage from '../scripts/components/PopupWithImage.js';
+import PopupWithSubmit from '../scripts/components/PopupWithSubmit.js';
 import FormValidator from '../scripts/components/FormValidator.js';
 import Api from '../scripts/components/Api.js';
-import { initialCards } from '../scripts/utils/data.js';
-import Popup from '../scripts/components/Popup';
+
+import {
+  cardPopupSelector,
+  cardAddPopupSelector,
+  cardDeletePopupSelector,
+  cardTemplateSelector,
+  cardsSectionSelector,
+  profileEditPopupSelector,
+  profileNameSelector,
+  profileDescriptionSelector,
+  validationConfig
+} from '../scripts/utils/constants.js';
 
 
-const validationConfig = {
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input-field',
-  submitButtonSelector: '.popup__submit-btn',
-  inactiveButtonClass: 'popup__submit-btn_inactive',
-  inputErrorClass: 'popup__input-field_type_error',
-  errorClass: 'popup__input-error_active'
-}
-
-const cardListSelector = '.elements';
-const cardAddPopupSelector = '.popup_type_add-card';
-const cardDeletePopupSelector = '.popup_type_delete-card';
-const cardTemplateSelector = '#element-template';
-const profileEditPopupSelector = '.popup_type_edit-profile';
-const profileNameSelector = '.profile__name';
-const profileDescriptionSelector = '.profile__description';
-const imagePopupSelector = '.popup_type_image';
-
+const cardAddForm = document.forms.cardCreateForm;
+const cardAddButton = document.querySelector('.profile__add-btn');
 const profileEditForm = document.forms.profileEditForm;
 const profileEditFormName = profileEditForm.elements.profileName;
 const profileEditFormDescription = profileEditForm.elements.profileDescription;
 const profileEditButton = document.querySelector('.profile__edit-btn');
-const profileEditFormValidator = new FormValidator(validationConfig, profileEditForm);
 
-const cardAddForm = document.forms.cardCreateForm;
-const cardAddButton = document.querySelector('.profile__add-btn');
 const cardAddFormValidator = new FormValidator(validationConfig, cardAddForm);
-const cardsContainer = document.querySelector(cardListSelector);
-const cardDeleteForm = document.forms.cardDeleteForm;
-const cardDeleteFormCardId = cardDeleteForm.elements.cardId;
-
-
-/* VALIDATORS INITIALIZATION */
-profileEditFormValidator.enableValidation();
-cardAddFormValidator.enableValidation();
-
-
-/* USERINFO COMPONENT INITIALIZATION */
-const userInfo = new UserInfo({
-  profileNameSelector,
-  profileDescriptionSelector
-});
-
-
-/* API COMPONENT INITIALIZATION */
+const cardsSection = new Section(cardsSectionSelector);
+const cardPopup = new PopupWithImage(cardPopupSelector);
+const cardDeletePopup = new PopupWithSubmit(cardDeletePopupSelector);
+const profileEditFormValidator = new FormValidator(validationConfig, profileEditForm);
+const userInfo = new UserInfo({ profileNameSelector, profileDescriptionSelector });
 const api = new Api({
   baseUrl: 'https://nomoreparties.co/v1/cohort-40',
   headers: {
@@ -64,9 +43,10 @@ const api = new Api({
   }
 });
 
-/* PROFILE */
-// Callback to open popup
-const showProfileEditForm = () => {
+
+/* PROFILE CALLBACKS */
+// Opens 'profile edit' popup
+const openProfileEditPopup = () => {
   const profileData = userInfo.getUserInfo();
   profileEditFormName.value = profileData.profileName;
   profileEditFormDescription.value = profileData.profileDescription;
@@ -76,7 +56,7 @@ const showProfileEditForm = () => {
   profileEditPopup.open();
 }
 
-// Callback to handle form submit
+// Handles 'profile edit' form submit
 const handleProfileEditFormSubmit = (profileData) => {
   api.updateProfile({
     name: profileData.profileName,
@@ -86,112 +66,89 @@ const handleProfileEditFormSubmit = (profileData) => {
     .catch(err => console.log(err));
 };
 
-// Popup
-const profileEditPopup = new PopupWithForm(
-  handleProfileEditFormSubmit,
-  profileEditPopupSelector
-);
-profileEditPopup.setEventListeners();
-profileEditButton.addEventListener('click', () => {
-  showProfileEditForm();
-});
+const profileEditPopup = new PopupWithForm(handleProfileEditFormSubmit, profileEditPopupSelector);
 
 
-/* CARD */
-// Returns card element with populated data
-const generateCard = (cardData) => {
-  return new Card(cardData, handleCardClick, cardTemplateSelector).generateCard();
-}
+/* CARD CALLBACKS */
+// Opens 'click card' popup
+const openCardPopup = (name, link) => cardPopup.open(name, link)
 
-// Callback to open popup
-const showCardAddForm = () => {
+// Opens 'add new card' popup
+const openCardAddPopup = () => {
   cardAddFormValidator.resetErrors();
   cardAddFormValidator.toggleButtonState();
+
   cardAddPopup.open();
 }
 
-// Callback to handle form submit
-const handleCardAddFormSubmit = (formData) => {
-  const cardData = {
-    name: formData.placeName,
-    link: formData.placeLink
-  };
-  api.addCard(cardData)
-    .then(cardsContainer.prepend(generateCard(cardData)))
-    .catch(err => console.log(err));
-}
-
-// Callback to open image popup
-const handleCardClick = (cardTitle, cardImageLink) => {
-  imagePopup.open(cardTitle, cardImageLink);
-}
-
-const cardAddPopup = new PopupWithForm(handleCardAddFormSubmit, cardAddPopupSelector);
-cardAddPopup.setEventListeners();
-cardAddButton.addEventListener('click', () => {
-  showCardAddForm();
-});
-
-const handleCardDelete = (formData) => {
-  // make api call
-  // delete card: card.remove()
-}
-
-const cardDeletePopup = new PopupWithForm(handleCardDelete ,cardDeletePopupSelector);
-
-const openCardDeletePopup = (cardId) => {
-  cardDeleteFormCardId.value = cardId;
+// Opens 'card delete confirmation' popup
+const openCardDeletePopup = (cardId, removeCardElement) => {
+  cardDeletePopup.setActionOnSubmit(_ => {
+    if (cardId) {
+      api.deleteCard(cardId)
+        .catch(err => console.log(err));
+    }
+    removeCardElement();
+  });
   cardDeletePopup.open();
 }
 
-const imagePopup = new PopupWithImage(imagePopupSelector);
-imagePopup.setEventListeners();
+// Handles 'add new card' form submit
+const handleCardAddFormSubmit = (formData) => {
+  api.addCard({ name: formData.placeName, link: formData.placeLink })
+    .then(cardData => cardsSection.prependItem(generateCard(cardData, true)))
+    .catch(err => console.log(err));
+}
+
+const cardAddPopup = new PopupWithForm(handleCardAddFormSubmit, cardAddPopupSelector);
+
+// Returns card element with populated data
+const generateCard = (cardData, isRemovable) => new Card({
+  data: cardData,
+  isRemovable: isRemovable,
+  handleCardClick: openCardPopup,
+  handleCardDelete: openCardDeletePopup
+}, cardTemplateSelector).generateCard();
 
 
-/* LOAD PROFILE */
-api.getUserInfo()
+/* API CALL TO GET DATA */
+api.getData()
   .then(data => {
+    const profileData = data[0];
+    const cardsArray = data[1];
+
+    // set user profile information
     userInfo.setUserInfo({
-      profileName: data.name,
-      profileDescription: data.about
+      profileName: profileData.name,
+      profileDescription: profileData.about
     })
-  })
-  .catch(err => {
-    userInfo.setUserInfo({
-      profileName: 'Jacques Cousteau',
-      profileDescription: 'Sailor, researcher'
+
+    const userId = profileData._id;
+
+    // load cards
+    cardsSection.renderItems({
+      items: cardsArray,
+      renderer: (cardData) => {
+        const isRemovable = userId === cardData.owner._id;
+        const card = generateCard(cardData, isRemovable);
+        cardsSection.appendItem(card);
+      }
     });
-    console.log(err);
-  });
-
-
-/* LOAD CARDS */
-api.getCards()
-  .then(cards => {
-
-    const cardList = new Section({
-      items: cards.map(function(item) {
-        return {
-          name: item.name,
-          link: item.link,
-          likesCount: item.likes.length
-        }
-      }),
-      renderer: data => cardList.prependItem(generateCard(data))
-    }, cardListSelector);
-
-    cardList.renderItems();
-
   })
   .catch(err => {
     console.log(err);
-  });
+  })
 
-  // cards.forEach(rawData => {
-    //   const cardData = {
-    //     name: rawData.name,
-    //     link: rawData.link,
-    //     likesCount: rawData.likes.length
-    //   };
-    //   cardsContainer.append(generateCard(cardData));
-    // });
+
+/* EVENT LISTENERS */
+cardPopup.setEventListeners();
+cardAddPopup.setEventListeners();
+cardDeletePopup.setEventListeners();
+cardAddButton.addEventListener('click', () => openCardAddPopup());
+profileEditPopup.setEventListeners();
+profileEditButton.addEventListener('click', () => openProfileEditPopup());
+
+/* VALIDATORS INITIALIZATION */
+cardAddFormValidator.enableValidation();
+profileEditFormValidator.enableValidation();
+

@@ -1,7 +1,15 @@
 export default class Api {
-  constructor({ baseUrl, headers }) {
-    this._baseUrl = baseUrl;
-    this._headers = headers;
+  constructor(config) {
+    this._baseUrl = config.baseUrl;
+    this._headers = config.headers;
+  }
+
+  _handleResponse = response => {
+    if (response.ok) {
+      return response.json();
+    }
+
+    return Promise.reject(`Ошибка: ${response}`);
   }
 
   // gets user info
@@ -10,13 +18,7 @@ export default class Api {
       method: 'GET',
       headers: this._headers
     })
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        }
-
-        return Promise.reject(`Ошибка: ${response}`);
-      });
+      .then(this._handleResponse);
   }
 
   // get cards array
@@ -25,13 +27,15 @@ export default class Api {
       method: 'GET',
       headers: this._headers
     })
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        }
+      .then(this._handleResponse);
+  }
 
-        return Promise.reject(`Ошибка: ${response}`);
-      })
+  // gets user info & cards array
+  getData() {
+    return Promise.all([
+      this.getUserInfo(),
+      this.getCards(),
+    ]);
   }
 
   // sends request to update user profile
@@ -41,13 +45,7 @@ export default class Api {
       headers: this._headers,
       body: JSON.stringify({ name: name, about: about })
     })
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        }
-
-        return Promise.reject(`Ошибка: ${response}`);
-      })
+      .then(this._handleResponse);
   }
 
   // sends request to add new card
@@ -57,12 +55,33 @@ export default class Api {
       headers: this._headers,
       body: JSON.stringify({ name: name, link: link })
     })
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        }
+      .then(this._handleResponse);
+  }
 
-        return Promise.reject(`Ошибка: ${response}`);
-      })
+  // sends request to add like to the card
+  addLikeToCard(cardId) {
+    return fetch(this._baseUrl + '/cards/' + cardId + '/likes', {
+      method: 'PUT',
+      headers: this._headers
+    })
+      .then(this._handleResponse);
+  }
+
+  // sends request to remove like from the card
+  deleteLikeFromCard(cardId) {
+    return fetch(this._baseUrl + '/cards/' + cardId + '/likes', {
+      method: 'DELETE',
+      headers: this._headers
+    })
+      .then(this._handleResponse);
+  }
+
+  // sends request to delete card
+  deleteCard(cardId) {
+    return fetch(this._baseUrl + '/cards/' + cardId, {
+      method: 'DELETE',
+      headers: this._headers
+    })
+      .then(this._handleResponse);
   }
 }
