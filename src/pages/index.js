@@ -67,7 +67,10 @@ const handleProfileEditFormSubmit = (profileData) => {
     name: profileData.profileName,
     about: profileData.profileDescription
   })
-    .then(userInfo.setUserInfo(profileData))
+    .then(_ => {
+      userInfo.setUserInfo(profileData);
+      profileEditPopup.close();
+    })
     .catch(err => console.log(err));
 };
 
@@ -85,7 +88,10 @@ const openProfileUpdateAvatarPopup = () => {
 const handleProfileUpdateAvatar = (formData) => {
   console.log(formData.avatarLink);
   api.updateProfileAvatar(formData.avatarLink)
-    .then(response => userInfo.setAvatar(response.avatar))
+    .then(response => {
+      userInfo.setAvatar(response.avatar);
+      profileUpdateAvatarPopup.close();
+    })
     .catch(err => console.log(err));
 }
 
@@ -118,7 +124,10 @@ const openCardDeletePopup = (cardId, removeCardElement) => {
 // Handles 'add new card' form submit
 const handleCardAddFormSubmit = (formData) => {
   api.addCard({ name: formData.placeName, link: formData.placeLink })
-    .then(cardData => cardsSection.prependItem(generateCard(cardData, false, true)))
+    .then(cardData => {
+      cardsSection.prependItem(generateCard(cardData, false, true));
+      cardAddPopup.close();
+    })
     .catch(err => console.log(err));
 }
 
