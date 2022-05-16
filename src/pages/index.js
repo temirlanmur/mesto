@@ -86,7 +86,6 @@ const openProfileUpdateAvatarPopup = () => {
 
 // Handles 'update avatar' form submit
 const handleProfileUpdateAvatar = (formData) => {
-  console.log(formData.avatarLink);
   api.updateProfileAvatar(formData.avatarLink)
     .then(response => {
       userInfo.setAvatar(response.avatar);
@@ -112,11 +111,9 @@ const openCardAddPopup = () => {
 // Opens 'card delete confirmation' popup
 const openCardDeletePopup = (cardId, removeCardElement) => {
   cardDeletePopup.setActionOnSubmit(_ => {
-    if (cardId) {
-      api.deleteCard(cardId)
-        .catch(err => console.log(err));
-    }
-    removeCardElement();
+    api.deleteCard(cardId)
+      .then(_ => removeCardElement())
+      .catch(err => console.log(err));
   });
   cardDeletePopup.open();
 }
