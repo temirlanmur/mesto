@@ -114,7 +114,10 @@ const openCardAddPopup = () => {
 const openCardDeletePopup = (cardId, removeCardElement) => {
   cardDeletePopup.setActionOnSubmit(_ => {
     api.deleteCard(cardId)
-      .then(_ => removeCardElement())
+      .then(_ => {
+        removeCardElement();
+        cardDeletePopup.close();
+      })
       .catch(err => console.log(err));
   });
   cardDeletePopup.open();
