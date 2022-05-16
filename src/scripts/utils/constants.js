@@ -5,8 +5,10 @@ export const cardTemplateSelector = '#element-template';
 export const cardsSectionSelector = '.elements';
 
 export const profileEditPopupSelector = '.popup_type_edit-profile';
+export const profileUpdateAvatarPopupSelector = '.popup_type_update-avatar';
 export const profileNameSelector = '.profile__name';
 export const profileDescriptionSelector = '.profile__description';
+export const profileAvatarSelector = '.profile__avatar';
 
 export const validationConfig = {
   formSelector: '.popup__form',

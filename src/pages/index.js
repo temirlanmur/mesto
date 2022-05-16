@@ -16,8 +16,10 @@ import {
   cardTemplateSelector,
   cardsSectionSelector,
   profileEditPopupSelector,
+  profileUpdateAvatarPopupSelector,
   profileNameSelector,
   profileDescriptionSelector,
+  profileAvatarSelector,
   validationConfig
 } from '../scripts/utils/constants.js';
 
@@ -28,13 +30,16 @@ const profileEditForm = document.forms.profileEditForm;
 const profileEditFormName = profileEditForm.elements.profileName;
 const profileEditFormDescription = profileEditForm.elements.profileDescription;
 const profileEditButton = document.querySelector('.profile__edit-btn');
+const profileUpdateAvatarForm = document.forms.avatarUpdateForm;
+const profileUpdateAvatarButton = document.querySelector('.profile__update-avatar-btn');
 
 const cardAddFormValidator = new FormValidator(validationConfig, cardAddForm);
 const cardsSection = new Section(cardsSectionSelector);
 const cardPopup = new PopupWithImage(cardPopupSelector);
 const cardDeletePopup = new PopupWithSubmit(cardDeletePopupSelector);
 const profileEditFormValidator = new FormValidator(validationConfig, profileEditForm);
-const userInfo = new UserInfo({ profileNameSelector, profileDescriptionSelector });
+const profileUpdateAvatarFormValidator = new FormValidator(validationConfig, profileUpdateAvatarForm);
+const userInfo = new UserInfo({ profileNameSelector, profileDescriptionSelector, profileAvatarSelector });
 const api = new Api({
   baseUrl: 'https://nomoreparties.co/v1/cohort-40',
   headers: {
@@ -68,6 +73,23 @@ const handleProfileEditFormSubmit = (profileData) => {
 
 const profileEditPopup = new PopupWithForm(handleProfileEditFormSubmit, profileEditPopupSelector);
 
+// Opens 'update avatar form'
+const openProfileUpdateAvatarPopup = () => {
+  profileUpdateAvatarFormValidator.resetErrors();
+  profileUpdateAvatarFormValidator.toggleButtonState();
+
+  profileUpdateAvatarPopup.open();
+}
+
+// Handles 'update avatar' form submit
+const handleProfileUpdateAvatar = (formData) => {
+  console.log(formData.avatarLink);
+  api.updateProfileAvatar(formData.avatarLink)
+    .then(response => userInfo.setAvatar(response.avatar))
+    .catch(err => console.log(err));
+}
+
+const profileUpdateAvatarPopup = new PopupWithForm(handleProfileUpdateAvatar, profileUpdateAvatarPopupSelector);
 
 /* CARD CALLBACKS */
 // Opens 'click card' popup
@@ -102,6 +124,7 @@ const handleCardAddFormSubmit = (formData) => {
 
 const cardAddPopup = new PopupWithForm(handleCardAddFormSubmit, cardAddPopupSelector);
 
+// Sends request to the server and updates card element
 const likeCard = ({ cardId, isLiked, updateState }) => {
   if(isLiked) {
     api.deleteLikeFromCard(cardId)
@@ -137,6 +160,7 @@ api.getData()
       profileName: profileData.name,
       profileDescription: profileData.about
     })
+    userInfo.setAvatar(profileData.avatar);
 
     const currentUserId = profileData._id;
 
@@ -162,9 +186,12 @@ cardAddPopup.setEventListeners();
 cardDeletePopup.setEventListeners();
 cardAddButton.addEventListener('click', () => openCardAddPopup());
 profileEditPopup.setEventListeners();
+profileUpdateAvatarPopup.setEventListeners();
 profileEditButton.addEventListener('click', () => openProfileEditPopup());
+profileUpdateAvatarButton.addEventListener('click', () => openProfileUpdateAvatarPopup());
 
 /* VALIDATORS INITIALIZATION */
 cardAddFormValidator.enableValidation();
 profileEditFormValidator.enableValidation();
+profileUpdateAvatarFormValidator.enableValidation();
 

@@ -48,6 +48,16 @@ export default class Api {
       .then(this._handleResponse);
   }
 
+  // sends request to update profile avatar
+  updateProfileAvatar(avatarLink) {
+    return fetch(this._baseUrl + '/users/me/avatar', {
+      method: 'PATCH',
+      headers: this._headers,
+      body: JSON.stringify({ avatar: avatarLink })
+    })
+      .then(this._handleResponse);
+  }
+
   // sends request to add new card
   addCard({ name, link }) {
     return fetch(this._baseUrl + '/cards', {
