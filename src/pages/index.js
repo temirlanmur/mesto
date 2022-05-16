@@ -96,17 +96,32 @@ const openCardDeletePopup = (cardId, removeCardElement) => {
 // Handles 'add new card' form submit
 const handleCardAddFormSubmit = (formData) => {
   api.addCard({ name: formData.placeName, link: formData.placeLink })
-    .then(cardData => cardsSection.prependItem(generateCard(cardData, true)))
+    .then(cardData => cardsSection.prependItem(generateCard(cardData, false, true)))
     .catch(err => console.log(err));
 }
 
 const cardAddPopup = new PopupWithForm(handleCardAddFormSubmit, cardAddPopupSelector);
 
+const likeCard = ({ cardId, isLiked, updateState }) => {
+  if(isLiked) {
+    api.deleteLikeFromCard(cardId)
+      .then(cardData => updateState(cardData.likes.length, !isLiked))
+      .catch(err => console.log(err));
+  }
+  else {
+    api.addLikeToCard(cardId)
+      .then(cardData => updateState(cardData.likes.length, !isLiked))
+      .catch(err => console.log(err));
+  }
+}
+
 // Returns card element with populated data
-const generateCard = (cardData, isRemovable) => new Card({
+const generateCard = (cardData, isLiked, isRemovable) => new Card({
   data: cardData,
+  isLiked: isLiked,
   isRemovable: isRemovable,
   handleCardClick: openCardPopup,
+  handleCardLike: likeCard,
   handleCardDelete: openCardDeletePopup
 }, cardTemplateSelector).generateCard();
 
@@ -123,14 +138,15 @@ api.getData()
       profileDescription: profileData.about
     })
 
-    const userId = profileData._id;
+    const currentUserId = profileData._id;
 
     // load cards
     cardsSection.renderItems({
       items: cardsArray,
       renderer: (cardData) => {
-        const isRemovable = userId === cardData.owner._id;
-        const card = generateCard(cardData, isRemovable);
+        const isLiked = cardData.likes.some(user => user._id === currentUserId);
+        const isRemovable = cardData.owner._id === currentUserId;
+        const card = generateCard(cardData, isLiked, isRemovable);
         cardsSection.appendItem(card);
       }
     });
