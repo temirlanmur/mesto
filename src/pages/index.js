@@ -71,7 +71,8 @@ const handleProfileEditFormSubmit = (profileData) => {
       userInfo.setUserInfo(profileData);
       profileEditPopup.close();
     })
-    .catch(err => console.log(err));
+    .catch(err => console.log(err))
+    .finally(_ => profileEditPopup.renderLoading(false));
 };
 
 const profileEditPopup = new PopupWithForm(handleProfileEditFormSubmit, profileEditPopupSelector);
@@ -91,7 +92,8 @@ const handleProfileUpdateAvatar = (formData) => {
       userInfo.setAvatar(response.avatar);
       profileUpdateAvatarPopup.close();
     })
-    .catch(err => console.log(err));
+    .catch(err => console.log(err))
+    .finally(_ => profileUpdateAvatarPopup.renderLoading(false));
 }
 
 const profileUpdateAvatarPopup = new PopupWithForm(handleProfileUpdateAvatar, profileUpdateAvatarPopupSelector);
@@ -125,7 +127,8 @@ const handleCardAddFormSubmit = (formData) => {
       cardsSection.prependItem(generateCard(cardData, false, true));
       cardAddPopup.close();
     })
-    .catch(err => console.log(err));
+    .catch(err => console.log(err))
+    .finally(_ => cardAddPopup.renderLoading(false));
 }
 
 const cardAddPopup = new PopupWithForm(handleCardAddFormSubmit, cardAddPopupSelector);
@@ -181,9 +184,7 @@ api.getData()
       }
     });
   })
-  .catch(err => {
-    console.log(err);
-  })
+  .catch(err => console.log(err));
 
 
 /* EVENT LISTENERS */
